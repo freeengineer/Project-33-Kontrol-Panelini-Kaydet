@@ -30,12 +30,16 @@ export default function App() {
     return { ...widget, positionData: { ...widget.positionData } };
   });
 
-  const [widgetConfig, setWidgetConfig] = useState(() => {
-    const stored = localStorage.getItem("widgetConfig");
-    return stored ? JSON.parse(stored) : DEFAULT_CONFIG;
-  });
+  const [widgetConfig, setWidgetConfig] = useState(DEFAULT_CONFIG);
 
   const [saveRequested, setSaveRequested] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("widgetConfig");
+    if (stored) {
+      setWidgetConfig(JSON.parse(stored));
+    }
+  }, []);
 
   function save() {
     localStorage.setItem("widgetConfig", JSON.stringify(widgetConfig));
